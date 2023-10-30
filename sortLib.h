@@ -9,3 +9,8 @@ void radixSort(int arr[], int size);
 void shellSort(int arr[], int size);
 void cocktailSort(int arr[], int size);
 
+typedef struct sortAlgo
+{
+    char *name;
+    char *color;
+} sortAlgo;
