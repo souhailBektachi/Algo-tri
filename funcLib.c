@@ -1,6 +1,6 @@
 #include "funcLib.h"
 #include "sortLib.h"
-#include <pthread.h>
+// #include <pthread.h>
 
 void random_v(int *tab, int taille)
 {
@@ -34,26 +34,33 @@ double mesureTemps(void (*fonction)(), int taille, int tab[])
     return cpu_time_used;
 }
 // ----------------------------------------------------------------------------------------
-void remplir_matrice_temp(point M[2][10])
+void remplir_matrice_temp(point M[8][10])
 {
-    int taille = 1000, *tab;
+    int i,j,taille=1000,*tab;
     double t;
-    tab = (int *)malloc(taille * sizeof(int));
-    random_v(tab, taille);
-
-    for (int i = 0; i < 2; i++)
+    tab=(point*)malloc(taille*sizeof(point));
+    random_v(tab,taille);
+    for(i=0;i<10;i++)
     {
-        for (int j = 0; j < 10; j++)
-        {
-            M[i][j] = (point){taille, mesureTemps(bubbleSort, taille, tab)};
-            taille += 1000;
-            tab = (int *)realloc(tab, taille * sizeof(int));
-            random_v(tab, taille);
-        }
+            M[0][i].time=mesureTemps(bubbleSort,taille,tab);
+            M[1][i].time=mesureTemps(selectionSort,taille,tab);
+            M[2][i].time=mesureTemps(insertionSort,taille,tab);
+            M[3][i].time=mesureTemps(heapSort,taille,tab);
+            M[4][i].time=mesureTemps(countingSort,taille,tab);
+            M[5][i].time=mesureTemps(radixSort,taille,tab);
+            M[6][i].time=mesureTemps(shellSort,taille,tab);
+            M[7][i].time=mesureTemps(cocktailSort,taille,tab);
+            for(j=0;j<8;j++){
+                M[j][i].size=taille;
+            }
+            free(tab);
+            taille+=10000;
+            tab=(int*)malloc(taille * sizeof(int));
+            random_v(tab,taille);
     }
 }
 // ----------------------------------------------------------------------------------------
-void affiche_matrice(point M[2][10])
+void affiche_matrice(point M[8][10])
 {
     int i, j, taille = 1000;
 
@@ -71,7 +78,7 @@ void affiche_matrice(point M[2][10])
 
     printf("|");
 
-    for (i = 0; i < 2; i++)
+    for (i = 0; i < 8; i++)
     {
         printf("\n");
         for (j = 0; j < 10; j++)

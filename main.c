@@ -13,7 +13,7 @@ int main(int argc, char const *argv[])
     // trie_par_selection(tab,taille);
     // affiche_tab(tab,taille);
 
-    point M[2][10];
+    point M[8][10];
     remplir_matrice_temp(M);
     affiche_matrice(M);
 }
