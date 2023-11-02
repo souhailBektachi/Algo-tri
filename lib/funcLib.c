@@ -1,11 +1,14 @@
 #include "funcLib.h"
 #include "sortLib.h"
 #include <pthread.h>
+#include <string.h>
 
-void random_v(int *tab, int taille)
+int INIT_SIZE, STEP, NB_STEP;
+
+void random_v(int *tab, int size)
 {
     int i;
-    for (i = 0; i < taille; i++)
+    for (i = 0; i < size; i++)
     {
         tab[i] = rand() % 100;
     }
@@ -14,10 +17,13 @@ void random_v(int *tab, int taille)
 // ----------------------------------------------------------------------------------------
 
 // Fonction qui mesure le temps d'exécution d'une autre fonction
-double mesureTemps(void (*fonction)(), int taille, int tab[])
+double mesureTemps(void (*fonction)(), int size, int tab[])
 {
     // int *tab;
-    // tab=(int*)malloc(taille*sizeof(int));
+    // tab=(int*)malloc(size*sizeof(int));
+
+    int *tabClone;
+    tabClone = (int *)malloc(size * sizeof(int));
 
     clock_t start, end;
     double cpu_time_used;
@@ -26,55 +32,67 @@ double mesureTemps(void (*fonction)(), int taille, int tab[])
     start = clock();
 
     // Appelez la fonction dont vous souhaitez mesurer le temps
-    fonction(tab, taille);
+    fonction(tabClone, size);
     // Enregistrez le moment où la fonction a terminé
     end = clock();
     // Calculez le temps d'exécution en secondes
     cpu_time_used = ((double)(end - start)) / CLOCKS_PER_SEC;
+
+    free(tabClone);
     return cpu_time_used;
 }
 // ----------------------------------------------------------------------------------------
-void remplir_matrice_temp(point M[2][10])
+void remplir_matrice_temp(point M[][NB_STEP])
 {
-    int taille = 1000, *tab;
-    double t;
-    tab = (int *)malloc(taille * sizeof(int));
-    random_v(tab, taille);
-
-    for (int i = 0; i < 2; i++)
+    int i = 0, *tab, size = INIT_SIZE;
+    do
     {
-        for (int j = 0; j < 10; j++)
+        tab = (int *)malloc(size * sizeof(int));
+        if (tab == NULL)
         {
-            M[i][j] = (point){taille, mesureTemps(bubbleSort, taille, tab)};
-            taille += 1000;
-            tab = (int *)realloc(tab, taille * sizeof(int));
-            random_v(tab, taille);
+            printf("Erreur d'allocation de mémoire\n");
+            exit(1);
         }
-    }
+
+        random_v(tab, size);
+
+        for (int j = 0; j < sizeof(ALGO_LIST) / sizeof(sortAlgo); j++)
+        {
+            M[j][i] = (point){size, mesureTemps(ALGO_LIST[j].sort, size, tab)};
+        }
+
+        size += STEP;
+        free(tab);
+        i++;
+    } while (i < NB_STEP);
 }
 // ----------------------------------------------------------------------------------------
-void affiche_matrice(point M[2][10])
+void affiche_matrice(point M[][NB_STEP])
 {
-    int i, j, taille = 1000;
+    int i, j;
 
-    for (j = 0; j < 10; j++)
+    printf("|%-20s", "");
+    for (j = 0; j < NB_STEP; j++)
     {
         printf("|%-10d", M[0][j].size);
     }
 
     printf("|\n");
 
-    for (j = 0; j < 10; j++)
+    printf("|--------------------");
+    for (j = 0; j < NB_STEP; j++)
     {
         printf("|----------");
     }
 
     printf("|");
 
-    for (i = 0; i < 2; i++)
+    for (i = 0; i < sizeof(ALGO_LIST) / sizeof(sortAlgo); i++)
     {
         printf("\n");
-        for (j = 0; j < 10; j++)
+        printf("|%-20s", ALGO_LIST[i].name);
+
+        for (j = 0; j < NB_STEP; j++)
         {
             printf("|%-10lf", M[i][j].time);
         }

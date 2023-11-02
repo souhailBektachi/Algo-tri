@@ -10,6 +10,8 @@ typedef struct point
 } point;
 
 void random_v(int *tab, int taille);
-double mesureTemps(void (*fonction)(), int taille, int *tab);
+double mesureTemps(void (*fonction)(), int size, int *tab);
 void remplir_matrice_temp(point M[2][10]);
 void affiche_matrice(point M[2][10]);
+
+extern int INIT_SIZE, STEP, NB_STEP;
