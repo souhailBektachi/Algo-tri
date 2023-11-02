@@ -1,19 +1,20 @@
 #include <stdio.h>
-#include "sortLib.h"
-#include "funcLib.h"
+#include "lib/sortLib.h"
+#include "lib/funcLib.h"
 
 int main(int argc, char const *argv[])
 {
-    // int taille=17,tab[17];
-    // printf("\n test ... ");
-    // random_v(tab,taille);
-    // printf("\n test ... ");
-    // printf("\n %d",tab[0]);
-    // affiche_tab(tab,taille);
-    // trie_par_selection(tab,taille);
-    // affiche_tab(tab,taille);
+    if (argc != 4)
+    {
+        printf("Usage: %s <initial_size> <step> <nb_step>\n", argv[0]);
+        return 1;
+    }
 
-    point M[8][10];
+    INIT_SIZE = atoi(argv[1]);
+    STEP = atoi(argv[2]);
+    NB_STEP = atoi(argv[3]);
+
+    point M[sizeof(ALGO_LIST) / sizeof(sortAlgo)][NB_STEP];
     remplir_matrice_temp(M);
     affiche_matrice(M);
 }

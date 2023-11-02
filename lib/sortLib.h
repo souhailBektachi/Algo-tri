@@ -13,4 +13,15 @@ typedef struct sortAlgo
 {
     char *name;
     char *color;
+    void (*sort)();
 } sortAlgo;
+
+const static sortAlgo ALGO_LIST[] = {
+    {"insertionSort", "green", insertionSort},
+    {"bubbleSort", "red", bubbleSort},
+    {"selectionSort", "blue", selectionSort},
+    {"heapSort", "purple", heapSort},
+    {"radixSort", "pink", radixSort},
+    {"shellSort", "gray", shellSort},
+    {"cocktailSort", "black", cocktailSort},
+};
