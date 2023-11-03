@@ -1,0 +1,13 @@
+.vscode/c_cpp_properties.json
+.vscode/launch.json
+.vscode/settings.json
+main
+cmake-build-debug
+cmake-build-debug/*
+.idea
+.vscode
+*.exe
+test.c
+test
+CMakeLists.txt
+build
