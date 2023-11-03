@@ -1,6 +1,7 @@
 #include "methodTri.h"
 
 void bubbleSort(int arr[], int size) {
+    
     int temp;
     for (int i = 0; i < size - 1; i++) {
         for (int j = 0; j < size - i - 1; j++) {
