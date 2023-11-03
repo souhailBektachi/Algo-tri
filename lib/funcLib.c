@@ -11,7 +11,7 @@ void random_v(int *tab, int size)
     int i;
     for (i = 0; i < size; i++)
     {
-        tab[i] = rand() % 100;
+        tab[i] = rand();
     }
 }
 
@@ -24,23 +24,19 @@ double mesureTemps(void (*fonction)(), int size, int tab[])
     int *tabClone;
     tabClone = (int *)malloc(size * sizeof(int));
 
-    memccpy(tabClone, tab, size, sizeof(int));
+    memcpy(tabClone, tab, size * sizeof(int));
 
-    clock_t start, end;
-    double cpu_time_used;
+    double real_time_passed;
+    struct timespec start, end;
 
-    // Enregistrez le moment où vous démarrez la mesure du temps
-    start = clock();
-
-    // Appelez la fonction dont vous souhaitez mesurer le temps
+    clock_gettime(CLOCK_MONOTONIC, &start);
     fonction(tabClone, size);
-    // Enregistrez le moment où la fonction a terminé
-    end = clock();
-    // Calculez le temps d'exécution en secondes
-    cpu_time_used = ((double)(end - start)) / CLOCKS_PER_SEC;
+    clock_gettime(CLOCK_MONOTONIC, &end);
+
+    real_time_passed = (end.tv_sec - start.tv_sec) + (end.tv_nsec - start.tv_nsec) / 1000000000.0;
 
     free(tabClone);
-    return cpu_time_used;
+    return real_time_passed;
 }
 // ----------------------------------------------------------------------------------------
 
