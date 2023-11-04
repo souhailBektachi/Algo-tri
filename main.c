@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "lib/sortLib.h"
 #include "lib/funcLib.h"
+#include "lib/dataLib.h"
 
 int main(int argc, char const *argv[])
 {

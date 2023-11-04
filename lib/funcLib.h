@@ -1,3 +1,6 @@
+#ifndef FUNCLIB_H
+#define FUNCLIB_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -26,10 +29,6 @@ double mesureTemps(void (*fonction)(), int size, int *tab);
 void remplir_matrice_temp(point M[][NB_STEP]);
 void affiche_matrice(point M[][NB_STEP]);
 void showLoading(ThreadData data[], int cycle);
-void gnerateDataFiles(point M[][NB_STEP]);
-void visualizeData();
-void smoothData(point M[][NB_STEP]);
-double smooth(double xMinus2, double xMinus1, double x, double xPlus1, double xPlus2);
 
 #ifdef _WIN32
 #include <direct.h>
@@ -37,4 +36,6 @@ double smooth(double xMinus2, double xMinus1, double x, double xPlus1, double xP
 #else
 #include <sys/stat.h>
 #define CREATE_DIR(dir) mkdir(dir, 0777)
+#endif
+
 #endif
