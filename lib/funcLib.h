@@ -3,7 +3,7 @@
 #include <math.h>
 #include <time.h>
 
-extern int INIT_SIZE, STEP, NB_STEP;
+extern int INIT_SIZE, STEP, NB_STEP, SMOOTHED;
 
 typedef struct point
 {
@@ -28,6 +28,8 @@ void affiche_matrice(point M[][NB_STEP]);
 void showLoading(ThreadData data[], int cycle);
 void gnerateDataFiles(point M[][NB_STEP]);
 void visualizeData();
+void smoothData(point M[][NB_STEP]);
+double smooth(double xMinus2, double xMinus1, double x, double xPlus1, double xPlus2);
 
 #ifdef _WIN32
 #include <direct.h>
