@@ -13,7 +13,7 @@ int main(int argc, char const *argv[])
     INIT_SIZE = atoi(argv[1]);
     STEP = atoi(argv[2]);
     NB_STEP = atoi(argv[3]);
-    SMOOTHED = argc == 5 ? atoi(argv[4]) : 0;
+    SMOOTHED = argc >= 5 ? atoi(argv[4]) : 0;
 
     point M[sizeof(ALGO_LIST) / sizeof(sortAlgo)][NB_STEP];
     remplir_matrice_temp(M);

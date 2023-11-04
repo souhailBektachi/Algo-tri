@@ -181,6 +181,10 @@ void gnerateDataFiles(point M[][NB_STEP])
             {
                 fprintf(sfp, "%d %lf\n", M[i][j].size, smooth(M[i][j - 2].time, M[i][j - 1].time, M[i][j].time, M[i][j + 1].time, M[i][j + 2].time));
             }
+            else
+            {
+                fprintf(sfp, "%d %lf\n", M[i][j].size, M[i][j].time);
+            }
         }
 
         fclose(fp);
@@ -215,8 +219,8 @@ void visualizeData()
 
     for (int i = 0; i < algoCount; i++)
     {
-        fprintf(script, "'data/%s.dat' with lp title '%s'", ALGO_LIST[i].name, ALGO_LIST[i].name);
-        (SMOOTHED) ? fprintf(scriptSm, "'data/smoothed/%s.dat' with lp title '%s'", ALGO_LIST[i].name, ALGO_LIST[i].name) : (void)(0);
+        fprintf(script, "'data/%s.dat' with lines title '%s'", ALGO_LIST[i].name, ALGO_LIST[i].name);
+        (SMOOTHED) ? fprintf(scriptSm, "'data/smoothed/%s.dat' with lines title '%s'", ALGO_LIST[i].name, ALGO_LIST[i].name) : (void)(0);
         if (i < algoCount - 1)
         {
             fprintf(script, ",\\\n");
@@ -225,6 +229,7 @@ void visualizeData()
     }
 
     fclose(script);
+    (SMOOTHED) ? fclose(scriptSm) : (void)(0);
     system("gnuplot -p 'script.txt'");
     system("gnuplot -p 'script_smoothed.txt'");
 }
