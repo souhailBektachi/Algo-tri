@@ -23,13 +23,12 @@ typedef struct
 
 void random_v(int *tab, int taille);
 double mesureTemps(void (*fonction)(), int size, int *tab);
-void remplir_matrice_temp(point M[2][10]);
-void affiche_matrice(point M[2][10]);
-
+void remplir_matrice_temp(point M[][NB_STEP]);
+void affiche_matrice(point M[][NB_STEP]);
+void showLoading(ThreadData data[], int cycle);
 void gnerateDataFiles(point M[][NB_STEP]);
 void visualizeData();
 
-void showLoading(ThreadData data[][NB_STEP]);
 #ifdef _WIN32
 #include <direct.h>
 #define CREATE_DIR(dir) _mkdir(dir)

@@ -51,8 +51,8 @@ void *threadFunc(void *arg)
 void remplir_matrice_temp(point M[][NB_STEP])
 {
     int i = 0, *tab, size = INIT_SIZE;
-    pthread_t threads[sizeof(ALGO_LIST) / sizeof(sortAlgo)][NB_STEP];
-    ThreadData threadData[sizeof(ALGO_LIST) / sizeof(sortAlgo)][NB_STEP];
+    pthread_t threads[sizeof(ALGO_LIST) / sizeof(sortAlgo)];
+    ThreadData threadData[sizeof(ALGO_LIST) / sizeof(sortAlgo)];
     int *pointers[NB_STEP];
 
     do
@@ -65,23 +65,20 @@ void remplir_matrice_temp(point M[][NB_STEP])
 
         for (int j = 0; j < sizeof(ALGO_LIST) / sizeof(sortAlgo); j++)
         {
-            threadData[j][i] = (ThreadData){&M[j][i], ALGO_LIST[j].sort, size, tab, ALGO_LIST[j].name};
-            pthread_create(&threads[j][i], NULL, threadFunc, &threadData[j][i]);
+            threadData[j] = (ThreadData){&M[j][i], ALGO_LIST[j].sort, size, tab, ALGO_LIST[j].name};
+            pthread_create(&threads[j], NULL, threadFunc, &threadData[j]);
         }
+
+        showLoading(threadData, i + 1);
+
+        // for (int i = 0; i < sizeof(ALGO_LIST) / sizeof(sortAlgo); i++)
+        // {
+        //     pthread_join(threads[i], NULL);
+        // }
 
         size += STEP;
         i++;
     } while (i < NB_STEP);
-
-    showLoading(threadData);
-
-    for (int i = 0; i < sizeof(ALGO_LIST) / sizeof(sortAlgo); i++)
-    {
-        for (int j = 0; j < NB_STEP; j++)
-        {
-            pthread_join(threads[i][j], NULL);
-        }
-    }
 
     for (int i = 0; i < NB_STEP; i++)
     {
@@ -124,37 +121,28 @@ void affiche_matrice(point M[][NB_STEP])
     printf("\n");
 }
 
-void showLoading(ThreadData data[][NB_STEP])
+void showLoading(ThreadData data[], int cycle)
 {
     int algoCount = sizeof(ALGO_LIST) / sizeof(sortAlgo);
-    int allDone = 0;
-    int counter = 0;
+    int allDone;
+    int done[algoCount];
+    float counter = 0;
 
-    while (!allDone)
+    do
     {
-        printf("\033[H\033[J");
-        printf("counter: %d\n", counter++);
-
         allDone = 1;
+        printf("\033[H\033[J");
+        printf("Cycle %d/%d %30.2f\n\n\n", cycle, NB_STEP, counter);
 
         for (int i = 0; i < algoCount; i++)
         {
-            int algoDone = 1;
-
-            for (int j = 0; j < NB_STEP; j++)
-            {
-                if (!data[i][j].done)
-                {
-                    algoDone = 0;
-                    allDone = 0;
-                }
-            }
-
-            printf("%-40s %s\n", data[i][0].name, algoDone ? "Done" : "Waiting...");
+            printf("%-40s %s\n", data[i].name, data[i].done ? "Done" : "Loading...");
+            allDone = allDone & data[i].done;
         }
 
-        sleep(1);
-    }
+        usleep(10000);
+        counter += 0.01;
+    } while (!allDone);
 
     printf("\033[H\033[J");
 }
