@@ -45,7 +45,6 @@ void *threadFunc(void *arg)
     ThreadData *data = (ThreadData *)arg;
     *(data->recordTab) = (point){data->size, mesureTemps(data->sort, data->size, data->tab)};
     data->done = 1;
-    printf("%s, ", data->name);
     return NULL;
 }
 
@@ -59,6 +58,7 @@ void remplir_matrice_temp(point M[][NB_STEP])
     do
     {
         tab = (int *)malloc(size * sizeof(int));
+
         pointers[i] = tab;
 
         random_v(tab, size);
@@ -157,4 +157,59 @@ void showLoading(ThreadData data[][NB_STEP])
     }
 
     printf("\033[H\033[J");
+}
+
+void gnerateDataFiles(point M[][NB_STEP])
+{
+    FILE *fp;
+    char fileName[50];
+    int i, j;
+
+    CREATE_DIR("data");
+
+    for (i = 0; i < sizeof(ALGO_LIST) / sizeof(sortAlgo); i++)
+    {
+
+        sprintf(fileName, "data/%s.dat", ALGO_LIST[i].name);
+        fp = fopen(fileName, "w");
+        if (fp == NULL)
+        {
+            printf("Error opening file!\n");
+            exit(1);
+        }
+
+        for (j = 0; j < NB_STEP; j++)
+        {
+            fprintf(fp, "%d %lf\n", M[i][j].size, M[i][j].time);
+        }
+
+        fclose(fp);
+    }
+}
+
+void visualizeData()
+{
+    int algoCount = sizeof(ALGO_LIST) / sizeof(sortAlgo);
+    FILE *script;
+
+    script = fopen("script.txt", "w");
+
+    fprintf(script, "set title 'Comparaison des algorithmes de tri'\n");
+    fprintf(script, "set xlabel 'Taille du tableau'\n");
+    fprintf(script, "set ylabel 'Temps d''execution'\n");
+    fprintf(script, "set key left top\n");
+    fprintf(script, "set grid\n");
+    fprintf(script, "plot ");
+
+    for (int i = 0; i < algoCount; i++)
+    {
+        fprintf(script, "'data/%s.dat' with lp title '%s'", ALGO_LIST[i].name, ALGO_LIST[i].name);
+        if (i < algoCount - 1)
+        {
+            fprintf(script, ",\\\n");
+        }
+    }
+
+    fclose(script);
+    system("gnuplot -p 'script.txt'");
 }

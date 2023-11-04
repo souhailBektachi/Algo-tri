@@ -16,5 +16,7 @@ int main(int argc, char const *argv[])
 
     point M[sizeof(ALGO_LIST) / sizeof(sortAlgo)][NB_STEP];
     remplir_matrice_temp(M);
-    affiche_matrice(M);
+    // affiche_matrice(M);
+    gnerateDataFiles(M);
+    visualizeData();
 }
