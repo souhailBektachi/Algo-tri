@@ -4,16 +4,16 @@
 #include <string.h>
 #include <unistd.h>
 
-int INIT_SIZE, STEP, NB_STEP;
+int INIT_SIZE, STEP, NB_STEP,CASES;
 
-void random_v(int *tab, int size)
-{
-    int i;
-    for (i = 0; i < size; i++)
-    {
-        tab[i] = rand();
-    }
-}
+// void random_v(int *tab, int size)
+// {
+//     int i;
+//     for (i = 0; i < size; i++)
+//     {
+//         tab[i] = rand();
+//     }
+// }
 
 // ----------------------------------------------------------------------------------------
 
@@ -61,7 +61,7 @@ void remplir_matrice_temp(point M[][NB_STEP])
 
         pointers[i] = tab;
 
-        random_v(tab, size);
+        CASES_LIST[CASES](tab, size);
 
         for (int j = 0; j < sizeof(ALGO_LIST) / sizeof(sortAlgo); j++)
         {

@@ -6,7 +6,7 @@
 #include <math.h>
 #include <time.h>
 
-extern int INIT_SIZE, STEP, NB_STEP, SMOOTHED;
+extern int INIT_SIZE, STEP, NB_STEP, SMOOTHED,CASES;
 
 typedef struct point
 {
