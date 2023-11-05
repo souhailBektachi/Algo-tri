@@ -3,7 +3,7 @@
 #include <pthread.h>
 #include <string.h>
 #include <unistd.h>
-
+#include "cas.h"
 int INIT_SIZE, STEP, NB_STEP,CASES;
 
 // void random_v(int *tab, int size)

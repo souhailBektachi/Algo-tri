@@ -5,7 +5,7 @@ void generateSmallSubarraySizesArray(int* tab, int n);
 void generateReverseSortedArray(int* tab, int n);
 void generateUnbalancedPartitionsArray(int* tab, int n);
 void generateLargeRangeArray(int* tab, int n);
-const int* (*CASES_LIST[])() = {
+const static void (*CASES_LIST[])() = {
     generateSortedArray,
     generateBalancedPartitionsArray,
     generateLimitedRangeArray,
