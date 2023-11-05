@@ -19,7 +19,7 @@ int INIT_SIZE, STEP, NB_STEP, CASES;
 // ----------------------------------------------------------------------------------------
 
 // Fonction qui mesure le temps d'exécution d'une autre fonction
-double mesureTemps(void (*fonction)(), int size, int tab[])
+double mesureTemps(SortAlgo algo, int size, int tab[])
 {
 
     int *tabClone;
@@ -31,7 +31,10 @@ double mesureTemps(void (*fonction)(), int size, int tab[])
     struct timespec start, end;
 
     clock_gettime(CLOCK_MONOTONIC, &start);
-    fonction(tabClone, size);
+    if (algo.hasAdditionalParam)
+        algo.sort(tabClone, 0, size - 1);
+    else
+        algo.sort(tabClone, size);
     clock_gettime(CLOCK_MONOTONIC, &end);
 
     real_time_passed = (end.tv_sec - start.tv_sec) + (end.tv_nsec - start.tv_nsec) / 1000000000.0;
@@ -44,7 +47,7 @@ double mesureTemps(void (*fonction)(), int size, int tab[])
 void *threadFunc(void *arg)
 {
     ThreadData *data = (ThreadData *)arg;
-    *(data->recordTab) = (point){data->size, mesureTemps(data->sort, data->size, data->tab)};
+    *(data->recordTab) = (point){data->size, mesureTemps(data->algo, data->size, data->tab)};
     data->done = 1;
     return NULL;
 }
@@ -52,8 +55,8 @@ void *threadFunc(void *arg)
 void remplir_matrice_temp(point M[][NB_STEP])
 {
     int i = 0, *tab, size = INIT_SIZE;
-    pthread_t threads[sizeof(ALGO_LIST) / sizeof(sortAlgo)];
-    ThreadData threadData[sizeof(ALGO_LIST) / sizeof(sortAlgo)];
+    pthread_t threads[sizeof(ALGO_LIST) / sizeof(SortAlgo)];
+    ThreadData threadData[sizeof(ALGO_LIST) / sizeof(SortAlgo)];
     int *pointers[NB_STEP];
 
     do
@@ -64,15 +67,15 @@ void remplir_matrice_temp(point M[][NB_STEP])
 
         CASES_LIST[CASES](tab, size);
 
-        for (int j = 0; j < sizeof(ALGO_LIST) / sizeof(sortAlgo); j++)
+        for (int j = 0; j < sizeof(ALGO_LIST) / sizeof(SortAlgo); j++)
         {
-            threadData[j] = (ThreadData){&M[j][i], ALGO_LIST[j].sort, size, tab, ALGO_LIST[j].name};
+            threadData[j] = (ThreadData){&M[j][i], ALGO_LIST[j], size, tab};
             pthread_create(&threads[j], NULL, threadFunc, &threadData[j]);
         }
 
         showLoading(threadData, i + 1);
 
-        // for (int i = 0; i < sizeof(ALGO_LIST) / sizeof(sortAlgo); i++)
+        // for (int i = 0; i < sizeof(ALGO_LIST) / sizeof(SortAlgo); i++)
         // {
         //     pthread_join(threads[i], NULL);
         // }
@@ -108,7 +111,7 @@ void affiche_matrice(point M[][NB_STEP])
 
     printf("|");
 
-    for (i = 0; i < sizeof(ALGO_LIST) / sizeof(sortAlgo); i++)
+    for (i = 0; i < sizeof(ALGO_LIST) / sizeof(SortAlgo); i++)
     {
         printf("\n");
         printf("|%-20s", ALGO_LIST[i].name);
@@ -124,7 +127,7 @@ void affiche_matrice(point M[][NB_STEP])
 
 void showLoading(ThreadData data[], int cycle)
 {
-    int algoCount = sizeof(ALGO_LIST) / sizeof(sortAlgo);
+    int algoCount = sizeof(ALGO_LIST) / sizeof(SortAlgo);
     int allDone;
     int done[algoCount];
     float counter = 0;
@@ -137,7 +140,7 @@ void showLoading(ThreadData data[], int cycle)
 
         for (int i = 0; i < algoCount; i++)
         {
-            printf("%-40s %s\n", data[i].name, data[i].done ? "Done" : "Loading...");
+            printf("%-40s %s\n", data[i].algo.name, data[i].done ? "Done" : "Loading...");
             allDone = allDone & data[i].done;
         }
 

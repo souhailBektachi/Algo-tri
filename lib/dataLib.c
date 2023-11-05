@@ -13,7 +13,7 @@ void gnerateDataFiles(point M[][NB_STEP])
     CREATE_DIR("data");
     CREATE_DIR("data/smoothed");
 
-    for (i = 0; i < sizeof(ALGO_LIST) / sizeof(sortAlgo); i++)
+    for (i = 0; i < sizeof(ALGO_LIST) / sizeof(SortAlgo); i++)
     {
 
         sprintf(fileName, "data/%s.dat", ALGO_LIST[i].name);
@@ -51,7 +51,7 @@ void gnerateDataFiles(point M[][NB_STEP])
 
 void visualizeData()
 {
-    int algoCount = sizeof(ALGO_LIST) / sizeof(sortAlgo);
+    int algoCount = sizeof(ALGO_LIST) / sizeof(SortAlgo);
     FILE *script, *scriptSm;
 
     script = fopen("script.txt", "w");

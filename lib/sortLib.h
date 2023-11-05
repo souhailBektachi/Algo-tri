@@ -1,3 +1,6 @@
+#ifndef SORTLIB_H
+#define SORTLIB_H
+
 void bubbleSort(int arr[], int size);
 void selectionSort(int arr[], int size);
 void insertionSort(int arr[], int size);
@@ -9,19 +12,24 @@ void radixSort(int arr[], int size);
 void shellSort(int arr[], int size);
 void cocktailSort(int arr[], int size);
 
-typedef struct sortAlgo
+typedef struct SortAlgo
 {
     char *name;
-    char *color;
+    char *nameFr;
     void (*sort)();
-} sortAlgo;
+    int hasAdditionalParam;
+} SortAlgo;
 
-const static sortAlgo ALGO_LIST[] = {
-    {"insertionSort", "green", insertionSort},
-    {"bubbleSort", "red", bubbleSort},
-    {"selectionSort", "blue", selectionSort},
-    {"heapSort", "purple", heapSort},
-    {"radixSort", "pink", radixSort},
-    {"shellSort", "gray", shellSort},
-    {"cocktailSort", "black", cocktailSort},
+const static SortAlgo ALGO_LIST[] = {
+    {"Insertion Sort", "Tri d'insertion", insertionSort, 0},
+    {"Bubble Sort", "Tri à bulles", bubbleSort, 0},
+    {"Selection Sort", "Tri par sélection", selectionSort, 0},
+    {"Merge Sort", "Tri fusion", mergeSort, 1},
+    {"Quick Sort", "Tri rapide", quickSort, 1},
+    {"Heap Sort", "Tri par tas", heapSort, 0},
+    {"Radix Sort", "Tri par base", radixSort, 0},
+    {"Shell Sort", "Tri de Shell", shellSort, 0},
+    {"Cocktail Sort", "Tri cocktail", cocktailSort, 0},
 };
+
+#endif

@@ -1,3 +1,5 @@
+#include "sortLib.h"
+
 #ifndef FUNCLIB_H
 #define FUNCLIB_H
 
@@ -6,7 +8,7 @@
 #include <math.h>
 #include <time.h>
 
-extern int INIT_SIZE, STEP, NB_STEP, SMOOTHED,CASES;
+extern int INIT_SIZE, STEP, NB_STEP, SMOOTHED, CASES;
 
 typedef struct point
 {
@@ -17,15 +19,14 @@ typedef struct point
 typedef struct
 {
     point *recordTab;
-    void (*sort)();
+    SortAlgo algo;
     int size;
     int *tab;
-    char *name;
     int done;
 } ThreadData;
 
 void random_v(int *tab, int taille);
-double mesureTemps(void (*fonction)(), int size, int *tab);
+double mesureTemps(SortAlgo algo, int size, int tab[]);
 void remplir_matrice_temp(point M[][NB_STEP]);
 void affiche_matrice(point M[][NB_STEP]);
 void showLoading(ThreadData data[], int cycle);
