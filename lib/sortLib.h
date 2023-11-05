@@ -18,18 +18,19 @@ typedef struct SortAlgo
     char *nameFr;
     void (*sort)();
     int hasAdditionalParam;
+    char *color;
 } SortAlgo;
 
 const static SortAlgo ALGO_LIST[] = {
-    {"BubbleSort", "Tri à bulles", bubbleSort, 0},
-    {"SelectionSort", "Tri par sélection", selectionSort, 0},
-    {"CocktailSort", "Tri cocktail", cocktailSort, 0},
-    {"InsertionSort", "Tri d'insertion", insertionSort, 0},
-    {"RadixSort", "Tri par base", radixSort, 0},
-    {"HeapSort", "Tri par tas", heapSort, 0},
-    {"ShellSort", "Tri de Shell", shellSort, 0},
-    {"MergeSort", "Tri fusion", mergeSort, 1},
-    {"QuickSort", "Tri rapide", quickSort, 1},
+    {"BubbleSort", "Tri à bulles", bubbleSort, 0, "#ff0000"},
+    {"SelectionSort", "Tri par sélection", selectionSort, 0, "#00ff00"},
+    {"CocktailSort", "Tri cocktail", cocktailSort, 0, "#0000ff"},
+    {"InsertionSort", "Tri d'insertion", insertionSort, 0, "#000000"},
+    {"RadixSort", "Tri par base", radixSort, 0, "#00ffff"},
+    {"HeapSort", "Tri par tas", heapSort, 0, "#ff8000"},
+    {"ShellSort", "Tri de Shell", shellSort, 0, "#00ff80"},
+    {"MergeSort", "Tri fusion", mergeSort, 1, "#8000ff"},
+    {"QuickSort", "Tri rapide", quickSort, 1, "#ff0080"},
 };
 
 #endif

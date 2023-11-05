@@ -88,8 +88,8 @@ void visualizeData()
 
     for (int i = 0; i < algoCount; i++)
     {
-        fprintf(script, "'data/%s/%s.dat' with lines title '%s'", CASES_LIST[CASES].label, ALGO_LIST[i].name, ALGO_LIST[i].name);
-        (SMOOTHED) ? fprintf(scriptSm, "'data/smoothed/%s/%s.dat' with lines title '%s'", CASES_LIST[CASES].label, ALGO_LIST[i].name, ALGO_LIST[i].name) : (void)(0);
+        fprintf(script, "'data/%s/%s.dat' with lines title '%s' linecolor rgb '%s'", CASES_LIST[CASES].label, ALGO_LIST[i].name, ALGO_LIST[i].name, ALGO_LIST[i].color);
+        (SMOOTHED) ? fprintf(scriptSm, "'data/smoothed/%s/%s.dat' with lines title '%s' linecolor rgb '%s'", CASES_LIST[CASES].label, ALGO_LIST[i].name, ALGO_LIST[i].name, ALGO_LIST[i].color) : (void)(0);
         if (i < algoCount - 1)
         {
             fprintf(script, ",\\\n");

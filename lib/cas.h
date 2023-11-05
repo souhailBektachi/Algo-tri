@@ -19,7 +19,7 @@ const static Case CASES_LIST[] = {
     {"Balanced Partitions Array", "Tableau avec partitions équilibrées", "balanced", generateBalancedPartitionsArray},
     {"Limited Range Array", "Tableau avec plage limitée", "limited", generateLimitedRangeArray},
     {"Small Subarray Sizes Array", "Tableau avec petites tailles de sous-tableaux", "small", generateSmallSubarraySizesArray},
-    {"Reverse Sorted Array", "Tableau trié à l'envers", "reverse", generateReverseSortedArray},
+    {"Reverse Sorted Array", "Tableau trié à l''envers", "reverse", generateReverseSortedArray},
     {"Unbalanced Partitions Array", "Tableau avec partitions déséquilibrées", "unbalanced", generateUnbalancedPartitionsArray},
     {"Large Range Array", "Tableau avec grande plage", "large", generateLargeRangeArray},
 };
