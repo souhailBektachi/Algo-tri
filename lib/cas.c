@@ -1,10 +1,20 @@
 #include "cas.h"
 #include <stdlib.h>
 #include <time.h>
-
+#include <stdio.h>
 void generateSortedArray(int* tab, int n) {
     for (int i = 0; i < n; ++i) {
         tab[i] = i;
+    }
+}
+
+void fisherYatesShuffle(int* arr, int size) {
+    srand(time(NULL));
+    for (int i = size - 1; i > 0; --i) {
+        int j = rand() % (i + 1);
+        int temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
     }
 }
 
@@ -17,8 +27,9 @@ void generateBalancedPartitionsArray(int* tab, int n) {
             value = 2;
         }
     }
-}
 
+    fisherYatesShuffle(tab, n);
+}
 void generateLimitedRangeArray(int* tab, int n) {
     srand(time(NULL)); 
     int range = n * 2; 
@@ -42,11 +53,10 @@ void generateReverseSortedArray(int* tab, int n) {
 }
 
 void generateUnbalancedPartitionsArray(int* tab, int n) {
-    int value = 1;
     for (int i = 0; i < n; ++i) {
-        tab[i] = value;
-        value += (i % 2) + 1;
+        tab[i] = i + 1;
     }
+    fisherYatesShuffle(tab, n);
 }
 
 void generateLargeRangeArray(int* tab, int n) {
@@ -56,3 +66,4 @@ void generateLargeRangeArray(int* tab, int n) {
         tab[i] = rand() % range;
     }
 }
+
