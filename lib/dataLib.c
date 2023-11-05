@@ -1,27 +1,32 @@
 #include "dataLib.h"
 #include "funcLib.h"
 #include "sortLib.h"
+#include "cas.h"
 
 int SMOOTHED;
 
 void gnerateDataFiles(point M[][NB_STEP])
 {
     FILE *fp, *sfp;
-    char fileName[50], sFileName[50];
+    char fileName[50], sFileName[50], pathName[50];
     int i, j;
 
     CREATE_DIR("data");
     CREATE_DIR("data/smoothed");
+    sprintf(pathName, "data/%s", CASES_LIST[CASES].label);
+    CREATE_DIR(pathName);
+    sprintf(pathName, "data/smoothed/%s", CASES_LIST[CASES].label);
+    CREATE_DIR(pathName);
 
     for (i = 0; i < sizeof(ALGO_LIST) / sizeof(SortAlgo); i++)
     {
 
-        sprintf(fileName, "data/%s.dat", ALGO_LIST[i].name);
+        sprintf(fileName, "data/%s/%s.dat", CASES_LIST[CASES].label, ALGO_LIST[i].name);
         fp = fopen(fileName, "w");
 
         if (SMOOTHED)
         {
-            sprintf(sFileName, "data/smoothed/%s.dat", ALGO_LIST[i].name);
+            sprintf(sFileName, "data/smoothed/%s/%s.dat", CASES_LIST[CASES].label, ALGO_LIST[i].name);
             sfp = fopen(sFileName, "w");
         }
 
@@ -53,11 +58,18 @@ void visualizeData()
 {
     int algoCount = sizeof(ALGO_LIST) / sizeof(SortAlgo);
     FILE *script, *scriptSm;
+    char fileName[20], sFileName[20];
 
-    script = fopen("script.txt", "w");
-    scriptSm = fopen("script_smoothed.txt", "w");
+    sprintf(fileName, "script_%s.gp", CASES_LIST[CASES].label);
+    script = fopen(fileName, "w");
 
-    fprintf(script, "set title 'Comparaison des algorithmes de tri'\n");
+    if (SMOOTHED)
+    {
+        sprintf(sFileName, "script_smoothed_%s.gp", CASES_LIST[CASES].label);
+        scriptSm = fopen(sFileName, "w");
+    }
+
+    fprintf(script, "set title 'Comparaison des algorithmes de tri | %s'\n", CASES_LIST[CASES].nameFr);
     fprintf(script, "set xlabel 'Taille du tableau'\n");
     fprintf(script, "set ylabel 'Temps d''execution'\n");
     fprintf(script, "set key left top\n");
@@ -66,7 +78,7 @@ void visualizeData()
 
     if (SMOOTHED)
     {
-        fprintf(scriptSm, "set title 'Comparaison des algorithmes de tri (lissé)'\n");
+        fprintf(scriptSm, "set title 'Comparaison des algorithmes de tri (lissé) | %s'\n", CASES_LIST[CASES].nameFr);
         fprintf(scriptSm, "set xlabel 'Taille du tableau'\n");
         fprintf(scriptSm, "set ylabel 'Temps d''execution'\n");
         fprintf(scriptSm, "set key left top\n");
@@ -76,8 +88,8 @@ void visualizeData()
 
     for (int i = 0; i < algoCount; i++)
     {
-        fprintf(script, "'data/%s.dat' with lines title '%s'", ALGO_LIST[i].name, ALGO_LIST[i].name);
-        (SMOOTHED) ? fprintf(scriptSm, "'data/smoothed/%s.dat' with lines title '%s'", ALGO_LIST[i].name, ALGO_LIST[i].name) : (void)(0);
+        fprintf(script, "'data/%s/%s.dat' with lines title '%s'", CASES_LIST[CASES].label, ALGO_LIST[i].name, ALGO_LIST[i].name);
+        (SMOOTHED) ? fprintf(scriptSm, "'data/smoothed/%s/%s.dat' with lines title '%s'", CASES_LIST[CASES].label, ALGO_LIST[i].name, ALGO_LIST[i].name) : (void)(0);
         if (i < algoCount - 1)
         {
             fprintf(script, ",\\\n");
@@ -87,8 +99,12 @@ void visualizeData()
 
     fclose(script);
     (SMOOTHED) ? fclose(scriptSm) : (void)(0);
-    system("gnuplot -p 'script.txt'");
-    system("gnuplot -p 'script_smoothed.txt'");
+
+    char cmd[100];
+    sprintf(cmd, "gnuplot -p %s", fileName);
+    system(cmd);
+    (SMOOTHED) ? sprintf(cmd, "gnuplot -p %s", sFileName) : (void)(0);
+    (SMOOTHED) ? system(cmd) : (void)(0);
 }
 
 double smooth(double xMinus2, double xMinus1, double x, double xPlus1, double xPlus2)

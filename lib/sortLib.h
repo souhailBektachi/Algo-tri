@@ -21,15 +21,15 @@ typedef struct SortAlgo
 } SortAlgo;
 
 const static SortAlgo ALGO_LIST[] = {
-    {"Insertion Sort", "Tri d'insertion", insertionSort, 0},
-    {"Bubble Sort", "Tri à bulles", bubbleSort, 0},
-    {"Selection Sort", "Tri par sélection", selectionSort, 0},
-    {"Merge Sort", "Tri fusion", mergeSort, 1},
-    {"Quick Sort", "Tri rapide", quickSort, 1},
-    {"Heap Sort", "Tri par tas", heapSort, 0},
-    {"Radix Sort", "Tri par base", radixSort, 0},
-    {"Shell Sort", "Tri de Shell", shellSort, 0},
-    {"Cocktail Sort", "Tri cocktail", cocktailSort, 0},
+    {"BubbleSort", "Tri à bulles", bubbleSort, 0},
+    {"SelectionSort", "Tri par sélection", selectionSort, 0},
+    {"CocktailSort", "Tri cocktail", cocktailSort, 0},
+    {"InsertionSort", "Tri d'insertion", insertionSort, 0},
+    {"RadixSort", "Tri par base", radixSort, 0},
+    {"HeapSort", "Tri par tas", heapSort, 0},
+    {"ShellSort", "Tri de Shell", shellSort, 0},
+    {"MergeSort", "Tri fusion", mergeSort, 1},
+    {"QuickSort", "Tri rapide", quickSort, 1},
 };
 
 #endif

@@ -65,7 +65,7 @@ void remplir_matrice_temp(point M[][NB_STEP])
 
         pointers[i] = tab;
 
-        CASES_LIST[CASES](tab, size);
+        CASES_LIST[CASES].generate(tab, size);
 
         for (int j = 0; j < sizeof(ALGO_LIST) / sizeof(SortAlgo); j++)
         {

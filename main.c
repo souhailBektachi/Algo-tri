@@ -14,7 +14,7 @@ int main(int argc, char const *argv[])
     INIT_SIZE = atoi(argv[1]);
     STEP = atoi(argv[2]);
     NB_STEP = atoi(argv[3]);
-    CASES = atoi(argv[4]) >=7 ? 7:atoi(argv[4]);
+    CASES = atoi(argv[4]) >= 7 ? 6 : atoi(argv[4]);
     SMOOTHED = argc >= 6 ? atoi(argv[5]) : 0;
 
     point M[sizeof(ALGO_LIST) / sizeof(SortAlgo)][NB_STEP];
