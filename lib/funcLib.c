@@ -2,17 +2,17 @@
 #include "sortLib.h"
 #include <string.h>
 #include <unistd.h>
+#include "cas.h"
+int INIT_SIZE, STEP, NB_STEP,CASES;
 
-int INIT_SIZE, STEP, NB_STEP;
-
-void random_v(int *tab, int size)
-{
-    int i;
-    for (i = 0; i < size; i++)
-    {
-        tab[i] = rand();
-    }
-}
+// void random_v(int *tab, int size)
+// {
+//     int i;
+//     for (i = 0; i < size; i++)
+//     {
+//         tab[i] = rand();
+//     }
+// }
 
 // ----------------------------------------------------------------------------------------
 
@@ -60,7 +60,7 @@ void remplir_matrice_temp(point M[][NB_STEP])
 
         pointers[i] = tab;
 
-        random_v(tab, size);
+        CASES_LIST[CASES](tab, size);
 
         for (int j = 0; j < sizeof(ALGO_LIST) / sizeof(sortAlgo); j++)
         {
