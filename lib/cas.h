@@ -5,4 +5,3 @@ int* generateSmallSubarraySizesArray(int size);
 int* generateReverseSortedArray(int size);
 int* generateUnbalancedPartitionsArray(int size);
 int* generateLargeRangeArray(int size, int range);
-int* generateLargeInputArray(int size);
