@@ -1,7 +1,12 @@
+#ifndef FUNCLIB_H
+#define FUNCLIB_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 #include <time.h>
+
+extern int INIT_SIZE, STEP, NB_STEP, SMOOTHED;
 
 typedef struct point
 {
@@ -21,9 +26,16 @@ typedef struct
 
 void random_v(int *tab, int taille);
 double mesureTemps(void (*fonction)(), int size, int *tab);
-void remplir_matrice_temp(point M[2][10]);
-void affiche_matrice(point M[2][10]);
+void remplir_matrice_temp(point M[][NB_STEP]);
+void affiche_matrice(point M[][NB_STEP]);
+void showLoading(ThreadData data[], int cycle);
 
-extern int INIT_SIZE, STEP, NB_STEP;
+#ifdef _WIN32
+#include <direct.h>
+#define CREATE_DIR(dir) _mkdir(dir)
+#else
+#include <sys/stat.h>
+#define CREATE_DIR(dir) mkdir(dir, 0777)
+#endif
 
-void showLoading(ThreadData data[][NB_STEP]);
+#endif

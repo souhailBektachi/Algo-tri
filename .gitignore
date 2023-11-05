@@ -11,3 +11,6 @@ test.c
 test
 CMakeLists.txt
 build
+Algo_tri
+data
+*.txt
