@@ -9,8 +9,7 @@ cmake-build-debug/*
 *.exe
 test.c
 test
-CMakeLists.txt
 build
 Algo_tri
 data
-*.txt
+script*.txt
