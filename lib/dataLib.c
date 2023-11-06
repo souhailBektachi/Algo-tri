@@ -1,9 +1,9 @@
 #include "dataLib.h"
 #include "funcLib.h"
 #include "sortLib.h"
-#include "cas.h"
+#include "caseLib.h"
 
-int SMOOTHED;
+int SMOOTHED, SHOW = 0;
 
 void gnerateDataFiles(point M[][NB_STEP])
 {
@@ -58,7 +58,7 @@ void visualizeData()
 {
     int algoCount = sizeof(ALGO_LIST) / sizeof(SortAlgo);
     FILE *script, *scriptSm;
-    char fileName[20], sFileName[20];
+    char fileName[100], sFileName[100];
 
     sprintf(fileName, "script_%s.gp", CASES_LIST[CASES].label);
     script = fopen(fileName, "w");
@@ -69,7 +69,7 @@ void visualizeData()
         scriptSm = fopen(sFileName, "w");
     }
 
-    fprintf(script, "set title 'Comparaison des algorithmes de tri | %s'\n", CASES_LIST[CASES].nameFr);
+    fprintf(script, "set title 'Comparaison des algorithmes de tri | %s'\n", CASES_LIST[CASES].name);
     fprintf(script, "set xlabel 'Taille du tableau'\n");
     fprintf(script, "set ylabel 'Temps d''execution'\n");
     fprintf(script, "set key left top\n");
@@ -78,7 +78,7 @@ void visualizeData()
 
     if (SMOOTHED)
     {
-        fprintf(scriptSm, "set title 'Comparaison des algorithmes de tri (lissé) | %s'\n", CASES_LIST[CASES].nameFr);
+        fprintf(scriptSm, "set title 'Comparaison des algorithmes de tri (lisse) | %s'\n", CASES_LIST[CASES].name);
         fprintf(scriptSm, "set xlabel 'Taille du tableau'\n");
         fprintf(scriptSm, "set ylabel 'Temps d''execution'\n");
         fprintf(scriptSm, "set key left top\n");
@@ -100,11 +100,14 @@ void visualizeData()
     fclose(script);
     (SMOOTHED) ? fclose(scriptSm) : (void)(0);
 
-    char cmd[100];
-    sprintf(cmd, "gnuplot -p %s", fileName);
-    system(cmd);
-    (SMOOTHED) ? sprintf(cmd, "gnuplot -p %s", sFileName) : (void)(0);
-    (SMOOTHED) ? system(cmd) : (void)(0);
+    if (SHOW)
+    {
+        char cmd[100];
+        sprintf(cmd, "gnuplot -p %s", fileName);
+        system(cmd);
+        (SMOOTHED) ? sprintf(cmd, "gnuplot -p %s", sFileName) : (void)(0);
+        (SMOOTHED) ? system(cmd) : (void)(0);
+    }
 }
 
 double smooth(double xMinus2, double xMinus1, double x, double xPlus1, double xPlus2)

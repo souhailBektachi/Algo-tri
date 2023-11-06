@@ -3,7 +3,7 @@
 #ifndef DATA_LIB_H
 #define DATA_LIB_H
 
-extern int SMOOTHED;
+extern int SMOOTHED, SHOW;
 
 void gnerateDataFiles(point M[][NB_STEP]);
 void visualizeData();

@@ -26,6 +26,7 @@ const static SortAlgo ALGO_LIST[] = {
     {"SelectionSort", "Tri par sélection", selectionSort, 0, "#00ff00"},
     {"CocktailSort", "Tri cocktail", cocktailSort, 0, "#0000ff"},
     {"InsertionSort", "Tri d'insertion", insertionSort, 0, "#000000"},
+    {"CountingSort", "Tri par dénombrement", countingSort, 0, "#f1bc12"},
     {"RadixSort", "Tri par base", radixSort, 0, "#00ffff"},
     {"HeapSort", "Tri par tas", heapSort, 0, "#ff8000"},
     {"ShellSort", "Tri de Shell", shellSort, 0, "#00ff80"},

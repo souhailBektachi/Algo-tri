@@ -2,7 +2,7 @@
 #include "sortLib.h"
 #include <string.h>
 #include <unistd.h>
-#include "cas.h"
+#include "caseLib.h"
 #include <pthread.h>
 
 int INIT_SIZE, STEP, NB_STEP, CASES;
@@ -136,7 +136,7 @@ void showLoading(ThreadData data[], int cycle)
     {
         allDone = 1;
         printf("\033[H\033[J");
-        printf("Cycle %d/%d %30.2f\n\n\n", cycle, NB_STEP, counter);
+        printf("Case: %s(%d/%d) %10s %d/%d %10.2fs\n\n\n", CASES_LIST[CASES].name, CASES + 1, NB_CASES, "Cycle", cycle, NB_STEP, counter);
 
         for (int i = 0; i < algoCount; i++)
         {

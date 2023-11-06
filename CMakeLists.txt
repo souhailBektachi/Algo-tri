@@ -13,8 +13,8 @@ add_executable(Algo_tri
         lib/sortLib.h
         lib/dataLib.c
         lib/dataLib.h
-        lib/cas.c
-        lib/cas.h)
+        lib/caseLib.c
+        lib/caseLib.h)
 
 target_compile_options(Algo_tri PRIVATE -pthread)
 set_target_properties(Algo_tri PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR})

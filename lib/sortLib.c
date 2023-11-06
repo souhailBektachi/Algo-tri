@@ -185,47 +185,34 @@ void heapSort(int arr[], int size)
 }
 void countingSort(int arr[], int size)
 {
-    int max = arr[0];
-    for (int i = 1; i < size; i++)
+    int i, j, max = 0;
+
+    for (i = 0; i < size; i++)
     {
         if (arr[i] > max)
-        {
             max = arr[i];
-        }
     }
 
-    int *count = (int *)malloc((max + 1) * sizeof(int));
-    int *output = (int *)malloc(size * sizeof(int));
+    int *count = (int *)calloc(max + 1, sizeof(int));
 
-    for (int i = 0; i <= max; i++)
-    {
-        count[i] = 0;
-    }
-
-    for (int i = 0; i < size; i++)
+    for (i = 0; i < size; i++)
     {
         count[arr[i]]++;
     }
 
-    for (int i = 1; i <= max; i++)
+    for (i = 0, j = 0; i <= max; i++)
     {
-        count[i] += count[i - 1];
-    }
-
-    for (int i = size - 1; i >= 0; i--)
-    {
-        output[count[arr[i]] - 1] = arr[i];
-        count[arr[i]]--;
-    }
-
-    for (int i = 0; i < size; i++)
-    {
-        arr[i] = output[i];
+        while (count[i] > 0)
+        {
+            arr[j] = i;
+            j++;
+            count[i]--;
+        }
     }
 
     free(count);
-    free(output);
 }
+
 static int getMax(int arr[], int size)
 {
     int max = arr[0];
