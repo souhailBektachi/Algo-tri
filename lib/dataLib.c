@@ -102,7 +102,7 @@ void visualizeData()
 
     if (SHOW)
     {
-        char cmd[100];
+        char cmd[150];
         sprintf(cmd, "gnuplot -p %s", fileName);
         system(cmd);
         (SMOOTHED) ? sprintf(cmd, "gnuplot -p %s", sFileName) : (void)(0);
